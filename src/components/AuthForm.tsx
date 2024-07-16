@@ -11,7 +11,7 @@ type Props = {
 };
 
 const AuthForm = ({ isLogin }: Props) => {
-	const { login: contextLogin, isAdmin } = useAuth();
+	const { login: contextLogin } = useAuth();
 	const {
 		handleSubmit,
 		formState: { errors },
@@ -28,12 +28,10 @@ const AuthForm = ({ isLogin }: Props) => {
 				// logic login
 				const res = await instance.post(`/auth/login`, data);
 				contextLogin(res.data.accessToken, res.data.user);
-				nav(res.data.user.role === "admin" ? "/admin" : "/");
 			} else {
 				// logic register
 				const res = await instance.post(`/auth/register`, { email: data.email, password: data.password });
 				alert(res.data.message);
-				nav("/login");
 			}
 		} catch (error: any) {
 			console.log(error);

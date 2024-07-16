@@ -3,5 +3,5 @@ export interface User {
 	email: string;
 	password: string;
 	confirmPass: string;
-	role?: "admin" | "member";
+	role?: "admin" | "member" | "guest";
 }
