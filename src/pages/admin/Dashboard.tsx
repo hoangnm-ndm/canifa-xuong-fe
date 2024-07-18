@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-import { Product } from "../../interfaces/Product";
+import { useContext } from "react";
+import { ProductContext, ProductContextType } from "../../contexts/ProductContext";
 
-interface Props {
-	products: Product[];
-	onRemove: (_id: any) => void;
-}
-const Dashboard = ({ products, onRemove }: Props) => {
+const Dashboard = () => {
+	const { state, removeProduct } = useContext(ProductContext) as ProductContextType;
+
 	return (
 		<div>
 			<h1>Hello Admin</h1>
@@ -18,22 +17,24 @@ const Dashboard = ({ products, onRemove }: Props) => {
 						<th>ID</th>
 						<th>Tittle</th>
 						<th>Price</th>
+						<th>Category</th>
 						<th>Description</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					{products.map((item) => (
+					{state.products.map((item) => (
 						<tr key={item._id}>
 							<td>{item._id}</td>
 							<td>{item.title}</td>
 							<td>{item.price}</td>
+							<td>{item.category}</td>
 							<td>{item.description}</td>
 							<td>
 								<Link to={`/admin/product-edit/${item._id}`} className="btn btn-warning">
 									Edit
 								</Link>
-								<button className="btn btn-danger" onClick={() => onRemove(item._id)}>
+								<button className="btn btn-danger" onClick={() => removeProduct(item._id)}>
 									Remove
 								</button>
 							</td>

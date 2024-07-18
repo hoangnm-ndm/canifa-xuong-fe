@@ -18,9 +18,11 @@ const Header = () => {
 						<li>
 							<button onClick={logout}>Logout</button>
 						</li>
-						<li>
-							<Link to="/admin">Admin</Link>
-						</li>
+						{user.role === "admin" && (
+							<li>
+								<Link to="/admin">Admin</Link>
+							</li>
+						)}
 					</>
 				) : (
 					<>

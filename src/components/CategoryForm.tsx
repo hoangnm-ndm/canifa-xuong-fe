@@ -3,13 +3,12 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { productSchema } from "../utils/validation";
 import { Product } from "../interfaces/Product";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { ProductContext, ProductContextType } from "../contexts/ProductContext";
 import instance from "../api";
 
-const ProductForm = () => {
+const CategoryForm = () => {
 	const { handleProduct } = useContext(ProductContext) as ProductContextType;
-	const [categories, setCategories] = useState([]);
 	const { id } = useParams();
 	const {
 		register,
@@ -28,13 +27,6 @@ const ProductForm = () => {
 			})();
 		}, [id]);
 	}
-
-	useEffect(() => {
-		(async () => {
-			const { data } = await instance.get(`/categories`);
-			setCategories(data.data);
-		})();
-	});
 
 	return (
 		<>
@@ -68,19 +60,6 @@ const ProductForm = () => {
 				</div>
 
 				<div className="mb-3">
-					<label htmlFor="" className="form-label">
-						Category
-					</label>
-					<select {...register("category")}>
-						{categories.map((category: any) => (
-							<option key={category._id} value={category._id}>
-								{category.name}
-							</option>
-						))}
-					</select>
-				</div>
-
-				<div className="mb-3">
 					<button className="btn btn-primary w-100">{id ? "Edit product" : "Add product"}</button>
 				</div>
 			</form>
@@ -88,4 +67,4 @@ const ProductForm = () => {
 	);
 };
 
-export default ProductForm;
+export default CategoryForm;

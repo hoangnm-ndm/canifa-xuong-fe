@@ -1,6 +1,12 @@
 import { Link, Outlet } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const LayoutAdmin = () => {
+	const { user } = useAuth();
+	console.log(user);
+	if (!user || user.role !== "admin") {
+		return <h1>Ban khong co quyen vao trang nay!</h1>;
+	}
 	return (
 		<>
 			<header>

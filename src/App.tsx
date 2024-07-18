@@ -1,49 +1,14 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Home from "./pages/Home";
-import Dashboard from "./pages/admin/Dashboard";
-import Notfound from "./pages/Notfound";
-import { Product } from "./interfaces/Product";
-import { useEffect, useState } from "react";
-import { instance } from "./api";
-import ProductForm from "./components/ProductForm";
 import AuthForm from "./components/AuthForm";
-import Header from "./components/layouts/Header";
-import LayoutClient from "./components/LayoutClient";
 import LayoutAdmin from "./components/LayoutAdmin";
+import LayoutClient from "./components/LayoutClient";
+import ProductForm from "./components/ProductForm";
+import Dashboard from "./pages/admin/Dashboard";
+import Home from "./pages/Home";
+import Notfound from "./pages/Notfound";
 
 function App() {
-	const [products, setProducts] = useState<Product[]>([]);
-	const nav = useNavigate();
-	const fetchProducts = async () => {
-		const { data } = await instance.get(`/products`);
-		console.log(data);
-		setProducts(data.data);
-	};
-
-	useEffect(() => {
-		fetchProducts();
-	}, []);
-
-	const handleRemove = async (_id: any) => {
-		if (confirm("Are you sure?")) {
-			await instance.delete(`/products/${_id}`);
-			setProducts(products.filter((item) => item._id !== _id));
-		}
-	};
-
-	const onSubmitProduct = async (data: Product) => {
-		if (data._id) {
-			// logic edit
-			await instance.patch(`/products/${data._id}`, { ...data, _id: undefined });
-			fetchProducts();
-		} else {
-			// logic add
-			const res = await instance.post(`/products`, data);
-			setProducts([...products, res.data.data]);
-		}
-		nav("/admin");
-	};
 	return (
 		<>
 			<Routes>
@@ -55,9 +20,9 @@ function App() {
 				<Route path="/register" element={<AuthForm />} />
 
 				<Route path="/admin" element={<LayoutAdmin />}>
-					<Route index element={<Dashboard products={products} onRemove={handleRemove} />} />
-					<Route path="/admin/product-add" element={<ProductForm onSubmit={onSubmitProduct} />} />
-					<Route path="/admin/product-edit/:id" element={<ProductForm onSubmit={onSubmitProduct} />} />
+					<Route index element={<Dashboard />} />
+					<Route path="/admin/product-add" element={<ProductForm />} />
+					<Route path="/admin/product-edit/:id" element={<ProductForm />} />
 				</Route>
 
 				<Route path="*" element={<Notfound />} />
