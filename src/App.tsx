@@ -7,6 +7,8 @@ import ProductForm from "./components/ProductForm";
 import Dashboard from "./pages/admin/Dashboard";
 import Home from "./pages/Home";
 import Notfound from "./pages/Notfound";
+import CategoryList from "./components/CategoryList";
+import CategoryForm from "./components/CategoryForm";
 
 function App() {
 	return (
@@ -23,6 +25,10 @@ function App() {
 					<Route index element={<Dashboard />} />
 					<Route path="/admin/product-add" element={<ProductForm />} />
 					<Route path="/admin/product-edit/:id" element={<ProductForm />} />
+
+					<Route path="/admin/categories" element={<CategoryList />} />
+					<Route path="/admin/category-add" element={<CategoryForm />} />
+					<Route path="/admin/category-edit/:id" element={<CategoryForm />} />
 				</Route>
 
 				<Route path="*" element={<Notfound />} />

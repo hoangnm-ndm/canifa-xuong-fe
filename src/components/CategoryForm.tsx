@@ -1,28 +1,41 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { productSchema } from "../utils/validation";
+import { categorySchema, productSchema } from "../utils/validation";
 import { Product } from "../interfaces/Product";
-import { useContext, useEffect } from "react";
-import { ProductContext, ProductContextType } from "../contexts/ProductContext";
+import { useEffect } from "react";
 import instance from "../api";
+import { Category } from "../interfaces/Category";
 
 const CategoryForm = () => {
-	const { handleProduct } = useContext(ProductContext) as ProductContextType;
 	const { id } = useParams();
 	const {
 		register,
 		formState: { errors },
 		handleSubmit,
 		reset,
-	} = useForm<Product>({
-		resolver: zodResolver(productSchema),
+	} = useForm<Category>({
+		resolver: zodResolver(categorySchema),
 	});
+
+	const handleCategory = async (data: Category) => {
+		console.log(data);
+		try {
+			if (data._id) {
+				const res = await instance.patch(`/categories/${data._id}`, data);
+			} else {
+				const res = await instance.post(`/categories`, data);
+				console.log(res);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	if (id) {
 		useEffect(() => {
 			(async () => {
-				const { data } = await instance.get(`/products/${id}`);
+				const { data } = await instance.get(`/categories/${id}`);
 				reset(data.data);
 			})();
 		}, [id]);
@@ -30,26 +43,14 @@ const CategoryForm = () => {
 
 	return (
 		<>
-			<form onSubmit={handleSubmit((data) => handleProduct({ ...data, _id: id }))}>
-				<h1>{id ? "Edit product" : "Add product"}</h1>
+			<form onSubmit={handleSubmit((data) => handleCategory({ ...data, _id: id }))}>
+				<h1>{id ? "Edit category" : "Add category"}</h1>
 				<div className="mb-3">
 					<label htmlFor="title" className="form-label">
 						title
 					</label>
 					<input className="form-control" type="text" {...register("title", { required: true })} />
 					{errors.title && <span className="text-danger">{errors.title.message}</span>}
-				</div>
-
-				<div className="mb-3">
-					<label htmlFor="price" className="form-label">
-						price
-					</label>
-					<input
-						className="form-control"
-						type="number"
-						{...register("price", { required: true, valueAsNumber: true })}
-					/>
-					{errors.price && <span className="text-danger">{errors?.price.message}</span>}
 				</div>
 
 				<div className="mb-3">
@@ -60,7 +61,7 @@ const CategoryForm = () => {
 				</div>
 
 				<div className="mb-3">
-					<button className="btn btn-primary w-100">{id ? "Edit product" : "Add product"}</button>
+					<button className="btn btn-primary w-100">{id ? "Edit category" : "Add category"}</button>
 				</div>
 			</form>
 		</>

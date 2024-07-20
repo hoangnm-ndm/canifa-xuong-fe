@@ -28,7 +28,7 @@ const Dashboard = () => {
 							<td>{item._id}</td>
 							<td>{item.title}</td>
 							<td>{item.price}</td>
-							<td>{item.category}</td>
+							<td>{item.category?.title}</td>
 							<td>{item.description}</td>
 							<td>
 								<Link to={`/admin/product-edit/${item._id}`} className="btn btn-warning">

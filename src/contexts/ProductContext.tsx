@@ -19,6 +19,7 @@ const ProductProvider = ({ children }: { children: React.ReactNode }) => {
 	useEffect(() => {
 		(async () => {
 			const { data } = await instance.get(`/products`);
+			console.log(data);
 			dispatch({ type: "GET_PRODUCTS", payload: data.data });
 		})();
 	}, []);
@@ -39,6 +40,7 @@ const ProductProvider = ({ children }: { children: React.ReactNode }) => {
 				dispatch({ type: "UPDATE_PRODUCT", payload: data.data });
 				alert(data.message);
 			} else {
+				console.log(product);
 				const { data } = await instance.post(`/products`, product);
 				dispatch({ type: "ADD_PRODUCT", payload: data.data });
 				alert(data.message);

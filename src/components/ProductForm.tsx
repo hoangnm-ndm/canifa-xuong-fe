@@ -6,10 +6,11 @@ import { Product } from "../interfaces/Product";
 import { useContext, useEffect, useState } from "react";
 import { ProductContext, ProductContextType } from "../contexts/ProductContext";
 import instance from "../api";
+import { Category } from "../interfaces/Category";
 
 const ProductForm = () => {
 	const { handleProduct } = useContext(ProductContext) as ProductContextType;
-	const [categories, setCategories] = useState([]);
+	const [categories, setCategories] = useState<Category[]>([]);
 	const { id } = useParams();
 	const {
 		register,
@@ -32,9 +33,10 @@ const ProductForm = () => {
 	useEffect(() => {
 		(async () => {
 			const { data } = await instance.get(`/categories`);
+			console.log(data);
 			setCategories(data.data);
 		})();
-	});
+	}, []);
 
 	return (
 		<>
@@ -71,10 +73,10 @@ const ProductForm = () => {
 					<label htmlFor="" className="form-label">
 						Category
 					</label>
-					<select {...register("category")}>
-						{categories.map((category: any) => (
+					<select {...register("category")} className="form-control">
+						{categories.map((category) => (
 							<option key={category._id} value={category._id}>
-								{category.name}
+								{category.title}
 							</option>
 						))}
 					</select>

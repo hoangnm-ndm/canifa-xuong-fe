@@ -16,6 +16,9 @@ const LayoutAdmin = () => {
 						<Link to="/">Home</Link>
 					</li>
 					<li>
+						<Link to="/admin/categories">Danh Mục</Link>
+					</li>
+					<li>
 						<Link to="/hosts">Quản lý host</Link>
 					</li>
 
@@ -32,13 +35,13 @@ const LayoutAdmin = () => {
 								<Link to="/admin">Dashboard</Link>
 							</li>
 							<li>
+								<Link to="/admin/categories">Danh mục</Link>
+							</li>
+							<li>
 								<Link to="/admin/users">User</Link>
 							</li>
 							<li>
 								<Link to="/admin/products">Products</Link>
-							</li>
-							<li>
-								<Link to="/admin/categories">Categories</Link>
 							</li>
 							<li>
 								<Link to="/admin/brands">Brands</Link>
